@@ -5,3 +5,37 @@ plugins {
     id 'org.jetbrains.kotlin.android' version '1.8.0' apply false
 }
 apply plugin: 'maven-publish'
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'edu.mines.csci448'
+            artifactId = 'library'
+            version = '0.1.0-alpha01'
+
+            pom {
+                name = 'CSCI 448 Library'
+                description = 'CS@Mines CSCI 448 Library'
+                url = 'https://cs-courses.mines.edu/csci448/'
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'https://opensource.org/license/mit/'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'jpaoneMines'
+                        name = 'Jeffrey Paone'
+                        email = 'jpaone@mines.edu'
+                    }
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            name = 'library'
+            url = uri("file://${project.buildDir}/repo")
+        }
+    }
+}

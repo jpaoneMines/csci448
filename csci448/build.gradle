@@ -35,10 +35,10 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion '1.4.1'
     }
-    testFixtures {
-        enable = true
-    }
     publishing {
+        singleVariant('debug') {
+            withSourcesJar()
+        }
         singleVariant('release') {
             withSourcesJar()
         }
