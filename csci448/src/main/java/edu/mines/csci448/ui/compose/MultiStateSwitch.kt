@@ -69,7 +69,7 @@ fun MultiStateSwitch(
         for (i in 0 until numRows) {
             Row{
                 for (j in 0 until numColumns) {
-                    if (i == numRows-1 && j > numLastRow-1) break
+                    if (i == numRows-1 && j > numLastRow-1 && numLastRow > 0) break
 
                     val index = i * numColumns + j
                     val optionComposable = options[index]
