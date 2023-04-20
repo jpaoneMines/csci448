@@ -214,6 +214,47 @@ private fun PreviewMultiStateSwitchFourTextOptions() {
 
 @Preview(showBackground = true)
 @Composable
+private fun PreviewMultiStateSwitchFourTextDifferentLengthsHorizontalOptions() {
+    val selectedTextColor: Color = MaterialTheme.colorScheme.onPrimary
+    val unselectedTextColor: Color = MaterialTheme.colorScheme.outline
+    val selectedIndexState = remember { mutableStateOf(0) }
+    val textContent: MutableList<@Composable () -> Unit> = mutableListOf()
+    textContent += { Text(text = "Alpha", color = if(0 == selectedIndexState.value) { selectedTextColor } else { unselectedTextColor }) }
+    textContent += { Text(text = "Beta", color = if(1 == selectedIndexState.value) { selectedTextColor } else { unselectedTextColor }) }
+    textContent += { Text(text = "Epsilon", color = if(2 == selectedIndexState.value) { selectedTextColor } else { unselectedTextColor }) }
+    textContent += { Text(text = "Gamma", color = if(3 == selectedIndexState.value) { selectedTextColor } else { unselectedTextColor }) }
+    MultiStateSwitch(
+        options = textContent.toTypedArray(),
+        selectedIndex = selectedIndexState.value,
+        onSelect = {
+            selectedIndexState.value = it
+        }
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PreviewMultiStateSwitchFourTextDifferentLengthsVerticalOptions() {
+    val selectedTextColor: Color = MaterialTheme.colorScheme.onPrimary
+    val unselectedTextColor: Color = MaterialTheme.colorScheme.outline
+    val selectedIndexState = remember { mutableStateOf(0) }
+    val textContent: MutableList<@Composable () -> Unit> = mutableListOf()
+    textContent += { Text(text = "Alpha", color = if(0 == selectedIndexState.value) { selectedTextColor } else { unselectedTextColor }) }
+    textContent += { Text(text = "Beta", color = if(1 == selectedIndexState.value) { selectedTextColor } else { unselectedTextColor }) }
+    textContent += { Text(text = "Epsilon", color = if(2 == selectedIndexState.value) { selectedTextColor } else { unselectedTextColor }) }
+    textContent += { Text(text = "Gamma", color = if(3 == selectedIndexState.value) { selectedTextColor } else { unselectedTextColor }) }
+    MultiStateSwitch(
+        options = textContent.toTypedArray(),
+        orientation = MultiStateSwitchOrientation.VERTICAL,
+        selectedIndex = selectedIndexState.value,
+        onSelect = {
+            selectedIndexState.value = it
+        }
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
 private fun PreviewMultiStateSwitchColumnFourTextOptions() {
     val selectedTextColor: Color = MaterialTheme.colorScheme.onPrimary
     val unselectedTextColor: Color = MaterialTheme.colorScheme.outline
