@@ -4,6 +4,10 @@
 
 # Change Log
 
+## v 0.2.0 - 10 May 2023
+
+- Added NetworkConnectionUtility into .util.network package
+
 ## v 0.1.2 - 20 April 2023
 
 - Removed app/ module from github repository
