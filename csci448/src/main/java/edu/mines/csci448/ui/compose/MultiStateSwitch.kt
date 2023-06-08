@@ -68,8 +68,7 @@ fun MultiStateSwitch(
                 width = borderWidth,
                 color = outlineColor,
                 shape = RoundedCornerShape(roundedCornerShapeSize)
-            )
-            .widthIn(min = 100.dp),
+            ),
         columns = GridCells.Fixed(numColumns),
         state = rememberLazyGridState()
     ) {
