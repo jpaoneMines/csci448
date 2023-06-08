@@ -11,6 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -38,13 +40,16 @@ fun MultiStateIconTextSwitch(
     borderWidth: Dp = 2.dp,
     innerPaddingVertical: Dp = 16.dp,
     innerPaddingHorizontal: Dp = 16.dp,
+    contentAlignment: Alignment = Alignment.CenterStart,
     onSelect: (selectedIndex: Int) -> Unit
 ) {
     val iconContent: MutableList<@Composable () -> Unit> = mutableListOf()
     icons.forEachIndexed { index, iconVector ->
         val contentDescription = if(index < contentDescriptions.size) { contentDescriptions[index] } else { null }
         iconContent += {
-            Row {
+            Row(
+                verticalAlignment = CenterVertically
+            ) {
                 Icon(
                     imageVector = iconVector,
                     contentDescription = contentDescription,
@@ -73,6 +78,7 @@ fun MultiStateIconTextSwitch(
         borderWidth = borderWidth,
         innerPaddingVertical = innerPaddingVertical,
         innerPaddingHorizontal = innerPaddingHorizontal,
+        contentAlignment = contentAlignment,
         onSelect = onSelect
     )
 }
@@ -95,6 +101,7 @@ fun MultiStateIconTextSwitchRow(
     borderWidth: Dp = 2.dp,
     innerPaddingVertical: Dp = 16.dp,
     innerPaddingHorizontal: Dp = 16.dp,
+    contentAlignment: Alignment = Alignment.CenterStart,
     onSelect: (selectedIndex: Int) -> Unit
 ) {
     MultiStateIconTextSwitch(
@@ -115,6 +122,7 @@ fun MultiStateIconTextSwitchRow(
         borderWidth = borderWidth,
         innerPaddingVertical = innerPaddingVertical,
         innerPaddingHorizontal = innerPaddingHorizontal,
+        contentAlignment = contentAlignment,
         onSelect = onSelect
     )
 }
@@ -137,6 +145,7 @@ fun MultiStateIconTextSwitchColumn(
     borderWidth: Dp = 2.dp,
     innerPaddingVertical: Dp = 16.dp,
     innerPaddingHorizontal: Dp = 16.dp,
+    contentAlignment: Alignment = Alignment.CenterStart,
     onSelect: (selectedIndex: Int) -> Unit
 ) {
     MultiStateIconTextSwitch(
@@ -157,13 +166,14 @@ fun MultiStateIconTextSwitchColumn(
         borderWidth = borderWidth,
         innerPaddingVertical = innerPaddingVertical,
         innerPaddingHorizontal = innerPaddingHorizontal,
+        contentAlignment = contentAlignment,
         onSelect = onSelect
     )
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun PreviewMultiStateIconSwitchTwoOptions() {
+private fun PreviewMultiStateIconTextSwitchTwoOptions() {
     val selectedIndexState = remember { mutableStateOf(0) }
     val icons = arrayOf(Icons.Rounded.Email, Icons.Rounded.AccountBox)
     val contentDescriptions = arrayOf("Email", "Account")
@@ -179,7 +189,7 @@ private fun PreviewMultiStateIconSwitchTwoOptions() {
 
 @Preview(showBackground = true)
 @Composable
-private fun PreviewMultiStateIconSwitchRowTwoOptions() {
+private fun PreviewMultiStateIconTextSwitchRowTwoOptions() {
     val selectedIndexState = remember { mutableStateOf(0) }
     val icons = arrayOf(Icons.Rounded.Email, Icons.Rounded.AccountBox)
     val contentDescriptions = arrayOf("Email", "Account")
@@ -195,7 +205,7 @@ private fun PreviewMultiStateIconSwitchRowTwoOptions() {
 
 @Preview(showBackground = true)
 @Composable
-private fun PreviewMultiStateIconSwitchSevenOptionsNoContentDescriptions() {
+private fun PreviewMultiStateIconTextSwitchSevenOptionsNoContentDescriptions() {
     val selectedIndexState = remember { mutableStateOf(0) }
     val icons = arrayOf(Icons.Rounded.Email, Icons.Rounded.AccountBox, Icons.Rounded.Share, Icons.Rounded.Favorite, Icons.Rounded.ShoppingCart, Icons.Rounded.ExitToApp, Icons.Rounded.Face)
     val contentDescriptions = arrayOf<String>()
@@ -211,7 +221,7 @@ private fun PreviewMultiStateIconSwitchSevenOptionsNoContentDescriptions() {
 
 @Preview(showBackground = true)
 @Composable
-private fun PreviewMultiStateIconSwitchColumnSevenOptions() {
+private fun PreviewMultiStateIconTextSwitchColumnSevenOptions() {
     val selectedIndexState = remember { mutableStateOf(0) }
     val icons = arrayOf(Icons.Rounded.Email, Icons.Rounded.AccountBox, Icons.Rounded.Share, Icons.Rounded.Favorite, Icons.Rounded.ShoppingCart, Icons.Rounded.ExitToApp, Icons.Rounded.Face)
     val contentDescriptions = arrayOf("Email", "Account", "Share", "Favorite", "Shopping Cart", "Exit", "Face")
@@ -227,7 +237,7 @@ private fun PreviewMultiStateIconSwitchColumnSevenOptions() {
 
 @Preview(showBackground = true)
 @Composable
-private fun PreviewMultiStateIconSwitchColumn3SevenOptions() {
+private fun PreviewMultiStateIconTextSwitchColumn3SevenOptions() {
     val selectedIndexState = remember { mutableStateOf(0) }
     val icons = arrayOf(Icons.Rounded.Email, Icons.Rounded.AccountBox, Icons.Rounded.Share, Icons.Rounded.Favorite, Icons.Rounded.ShoppingCart, Icons.Rounded.ExitToApp, Icons.Rounded.Face)
     val contentDescriptions = arrayOf("Email", "Account", "Share", "Favorite", "Shopping Cart", "Exit", "Face")

@@ -4,6 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
@@ -13,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -42,21 +47,20 @@ fun MultiStateSwitch(
     borderWidth: Dp = 2.dp,
     innerPaddingVertical: Dp = 8.dp,
     innerPaddingHorizontal: Dp = 16.dp,
+    contentAlignment: Alignment = Alignment.Center,
     onSelect: (selectedIndex: Int) -> Unit
 ) {
     val numItems = options.size
     val numColumns = when (orientation) {
-        MultiStateSwitchOrientation.HORIZONTAL -> numItems+1
+        MultiStateSwitchOrientation.HORIZONTAL -> numItems
         MultiStateSwitchOrientation.VERTICAL -> 1
         MultiStateSwitchOrientation.COLUMNS_2 -> 2
         MultiStateSwitchOrientation.COLUMNS_3 -> 3
         MultiStateSwitchOrientation.COLUMNS_4 -> 4
         MultiStateSwitchOrientation.COLUMNS_5 -> 5
     }
-    val numLastRow = numItems % numColumns
-    val numRows = (numItems / numColumns) + if(numLastRow > 0) {1} else {0}
 
-    Column (
+    LazyVerticalGrid(
         modifier = Modifier
             .clip(shape = RoundedCornerShape(roundedCornerShapeSize))
             .background(backgroundColor)
@@ -65,31 +69,29 @@ fun MultiStateSwitch(
                 color = outlineColor,
                 shape = RoundedCornerShape(roundedCornerShapeSize)
             )
+            .widthIn(min = 100.dp),
+        columns = GridCells.Fixed(numColumns),
+        state = rememberLazyGridState()
     ) {
-        for (i in 0 until numRows) {
-            Row{
-                for (j in 0 until numColumns) {
-                    if (i == numRows-1 && j > numLastRow-1 && numLastRow > 0) break
-
-                    val index = i * numColumns + j
-                    val optionComposable = options[index]
-
-                    Box(
-                        modifier = Modifier
-                            .clip(shape = RoundedCornerShape(roundedCornerShapeSize))
-                            .clickable { onSelect(index) }
-                            .background(
-                                if (index == selectedIndex) {
-                                    selectedBackgroundColor
-                                } else {
-                                    unselectedBackgroundColor
-                                }
-                            )
-                            .padding(vertical = innerPaddingVertical, horizontal = innerPaddingHorizontal)
-                    ) {
-                        optionComposable()
-                    }
-                }
+        itemsIndexed(options) { index, optionComposable ->
+            Box(
+                modifier = Modifier
+                    .clip(shape = RoundedCornerShape(roundedCornerShapeSize))
+                    .clickable { onSelect(index) }
+                    .background(
+                        if (index == selectedIndex) {
+                            selectedBackgroundColor
+                        } else {
+                            unselectedBackgroundColor
+                        }
+                    )
+                    .padding(
+                        vertical = innerPaddingVertical,
+                        horizontal = innerPaddingHorizontal
+                    ),
+                contentAlignment = contentAlignment
+            ) {
+                optionComposable()
             }
         }
     }
@@ -107,6 +109,7 @@ fun MultiStateSwitchRow(
     borderWidth: Dp = 2.dp,
     innerPaddingVertical: Dp = 8.dp,
     innerPaddingHorizontal: Dp = 16.dp,
+    contentAlignment: Alignment = Alignment.Center,
     onSelect: (selectedIndex: Int) -> Unit
 ) {
     MultiStateSwitch(
@@ -121,6 +124,7 @@ fun MultiStateSwitchRow(
         borderWidth = borderWidth,
         innerPaddingVertical = innerPaddingVertical,
         innerPaddingHorizontal = innerPaddingHorizontal,
+        contentAlignment = contentAlignment,
         onSelect = onSelect
     )
 }
@@ -137,6 +141,7 @@ fun MultiStateSwitchColumn(
     borderWidth: Dp = 2.dp,
     innerPaddingVertical: Dp = 16.dp,
     innerPaddingHorizontal: Dp = 8.dp,
+    contentAlignment: Alignment = Alignment.Center,
     onSelect: (selectedIndex: Int) -> Unit
 ) {
     MultiStateSwitch(
@@ -151,6 +156,7 @@ fun MultiStateSwitchColumn(
         borderWidth = borderWidth,
         innerPaddingVertical = innerPaddingVertical,
         innerPaddingHorizontal = innerPaddingHorizontal,
+        contentAlignment = contentAlignment,
         onSelect = onSelect
     )
 }
@@ -225,6 +231,27 @@ private fun PreviewMultiStateSwitchFourTextDifferentLengthsHorizontalOptions() {
     textContent += { Text(text = "Gamma", color = if(3 == selectedIndexState.value) { selectedTextColor } else { unselectedTextColor }) }
     MultiStateSwitch(
         options = textContent.toTypedArray(),
+        selectedIndex = selectedIndexState.value,
+        onSelect = {
+            selectedIndexState.value = it
+        }
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PreviewMultiStateSwitchFourTextDifferentLengthsGridOptions() {
+    val selectedTextColor: Color = MaterialTheme.colorScheme.onPrimary
+    val unselectedTextColor: Color = MaterialTheme.colorScheme.outline
+    val selectedIndexState = remember { mutableStateOf(0) }
+    val textContent: MutableList<@Composable () -> Unit> = mutableListOf()
+    textContent += { Text(text = "Alpha", color = if(0 == selectedIndexState.value) { selectedTextColor } else { unselectedTextColor }) }
+    textContent += { Text(text = "Beta", color = if(1 == selectedIndexState.value) { selectedTextColor } else { unselectedTextColor }) }
+    textContent += { Text(text = "Epsilon", color = if(2 == selectedIndexState.value) { selectedTextColor } else { unselectedTextColor }) }
+    textContent += { Text(text = "Gamma", color = if(3 == selectedIndexState.value) { selectedTextColor } else { unselectedTextColor }) }
+    MultiStateSwitch(
+        options = textContent.toTypedArray(),
+        orientation = MultiStateSwitchOrientation.COLUMNS_2,
         selectedIndex = selectedIndexState.value,
         onSelect = {
             selectedIndexState.value = it
