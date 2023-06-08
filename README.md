@@ -4,6 +4,10 @@
 
 # Change Log
 
+## v 0.3.1 - 07 Jun 2023
+
+- Removed minimum width on MultiStateSwitch
+
 ## v 0.3.0 - 07 Jun 2023
 
 - Aligned MultiStateSwitch grid column width
