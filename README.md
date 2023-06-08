@@ -6,7 +6,7 @@
 
 ## v 0.3.0 - 07 Jun 2023
 
-- Aligned grid columns and width
+- Aligned MultiStateSwitch grid column width
 
 ## v 0.2.0 - 10 May 2023
 
